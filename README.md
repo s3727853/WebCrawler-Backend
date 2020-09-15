@@ -1,4 +1,4 @@
-# Orchard Pig API Server
+# RedBack Crawler API server
 
 The API server is the middle layer between the public website/CMS and the database, controlling
 access to data, third-party APIs and managing authentication.
