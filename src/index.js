@@ -66,7 +66,7 @@ app.use((req, res) => {
   });
   
   // Start the server.
-  app.listen(3001, async () => {
+  app.listen(process.env.PORT || 3001, async () => {
     console.log('Server listening on port 3001');
   });
   
