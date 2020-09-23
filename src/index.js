@@ -47,7 +47,7 @@ const corsOptions = {
 };
 
 // Enable CORS for all requests.
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // API routes.
 
