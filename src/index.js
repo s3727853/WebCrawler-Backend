@@ -36,7 +36,9 @@ const corsOptions = {
   origin: (origin, callback) => {
     const whitelist = [
       process.env.FRONTEND_URL,
-      process.env.LH_URL
+      process.env.FRONTEND_URL2,
+      process.env.LH_URL,
+      process.env.LH_URL2
     ];
 
     if (whitelist.indexOf(origin) !== -1 || !origin) {
