@@ -13,11 +13,12 @@ Example:
 ```sh
 # .env
 NODE_ENV=development
-
 DB_NAME=""
 DB_PASSWORD=""
 DB_USERNAME=""
-FRONTEND_URL="https://redback-crawler.herokuapp.com/"
+JWT_SECRET=""
+JWT_EXPIRE_TIME=""
+FRONTEND_URL="https://redback-crawler.herokuapp.com"
 LH_URL="http://localhost:8080"
 ```
 
@@ -25,11 +26,10 @@ Please log into Herku and go to settings and reveal "config vars" to find the co
 
 ## Development
 
-Please note this is currently running on port 3001 in development mode and when accessing API routes you will need to reflect this.
+Please note this is currently running on port 3001 in development mode (when you run it locally) and when accessing API routes you will need to reflect this.
 
 ### Local
 
-Start an Express server that watches for file changes in `src/` or `.env` and redeploys:
 
 ```sh
 npm run start:dev

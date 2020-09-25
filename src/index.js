@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import demoRouter from './routes/demo';
+import loginRouter from './routes/login';
+import newUserRouter from './routes/newUser';
 import healthRouter from './routes/health';
 import { loggerMiddleware } from './logger/logger';
 
@@ -54,6 +56,13 @@ app.use(cors(corsOptions));
 // API routes.
 
 app.use('/api/demo', demoRouter); // This is a demo route that tells /api/demo route to use demoRouter which was imported top of file
+
+// API routes
+
+app.use('/api/login', loginRouter); // Login
+app.use('/api/register', newUserRouter); //New user registraton
+
+//app.use('/api/testauth', Auth.checkAuth, authTestRouter);
 
 // Root response to show Node is running when root url is visited in browser
 
