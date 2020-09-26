@@ -16,6 +16,16 @@ const demoController = {
             // Normally a error catch block would return a status code such as a 400 or 408
             console.error(err);
         }
+    },
+
+    async authDemo(req, res){
+        try {
+          
+            let authResponse = [{auth: req.user.auth, role: req.user.role, user: req.user.email, message: 'User JWT token was verified and access allowed'}];
+            return res.status(200).json(authResponse);
+        } catch(error){
+            console.log(error);
+        }
     }
 };
 

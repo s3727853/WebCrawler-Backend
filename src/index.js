@@ -7,6 +7,8 @@ import demoRouter from './routes/demo';
 import loginRouter from './routes/login';
 import newUserRouter from './routes/newUser';
 import healthRouter from './routes/health';
+import auth from './middleware/authenticator';
+import authDemo from './routes/authDemo';
 import { loggerMiddleware } from './logger/logger';
 
 // Read in .env variables.
@@ -61,6 +63,11 @@ app.use('/api/demo', demoRouter); // This is a demo route that tells /api/demo r
 
 app.use('/api/login', loginRouter); // Login
 app.use('/api/register', newUserRouter); //New user registraton
+
+// Auth contains a next call that only happens if token is verified.
+// if next gets called then this proceeds to the next route (authDemo).
+app.use('/api/demo/auth', auth.checkJWT, authDemo); 
+
 
 //app.use('/api/testauth', Auth.checkAuth, authTestRouter);
 
