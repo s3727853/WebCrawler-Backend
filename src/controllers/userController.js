@@ -14,8 +14,8 @@ const userController = {
     }
 
     try {
-        const queryValues = [req.body.full_name, req.body.email, req.body.password];
-        const queryResult = pool.query('SELECT * FROM addUser($1, $2, $3)', queryValues);
+        const queryValues = [req.body.first_name, req.body.last_name, req.body.email, req.body.role, req.body.password];
+        const queryResult = pool.query('SELECT * FROM addUser($1, $2, $3, $4, $5)', queryValues);
 
         return res.status(200).json((await queryResult).rows);
 

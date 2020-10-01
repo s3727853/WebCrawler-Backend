@@ -61,8 +61,8 @@ app.use('/api/demo', demoRouter); // This is a demo route that tells /api/demo r
 
 // API routes
 
-app.use('/api/login', loginRouter); // Login
-app.use('/api/register', newUserRouter); //New user registraton
+app.use('/api/user/login', loginRouter); // Login
+app.use('/api/user/register', newUserRouter); //New user registraton
 
 // Auth contains a next call that only happens if token is verified.
 // if next gets called then this proceeds to the next route (authDemo).
