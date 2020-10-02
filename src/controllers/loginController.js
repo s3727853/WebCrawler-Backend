@@ -23,7 +23,8 @@ const loginController = {
             if (queryResult.rows == 0 ){
                 return res.status(401).jsonp({ message: 'Bad username or password'});
             }
-
+            
+            // NEED TO UPDATE PAYLOAD HERE ? (first_name, last_name)
             const payload = {
                 id: queryResult.rows[0].id,
                 full_name: queryResult.rows[0].full_name,
