@@ -24,10 +24,11 @@ const loginController = {
                 return res.status(401).jsonp({ message: 'Bad username or password'});
             }
             
-            // NEED TO UPDATE PAYLOAD HERE ? (first_name, last_name)
+            
             const payload = {
                 id: queryResult.rows[0].id,
-                full_name: queryResult.rows[0].full_name,
+                first_name: queryResult.rows[0].first_name,
+                last_name: queryResult.rows[0].last_name,
                 email: queryResult.rows[0].email,
                 role: queryResult.rows[0].role
             };
