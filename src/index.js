@@ -11,11 +11,22 @@ import auth from './middleware/authenticator';
 import authDemo from './routes/authDemo';
 import { loggerMiddleware } from './logger/logger';
 
+
 // Read in .env variables.
 require('dotenv').config();
 
 // Initialise Express.
 const app = express();
+
+
+
+// Testing for crawler, it will run once on start
+
+import crawler from './crawler/controllers/exchangeRates';
+crawler.start();
+
+// End crawler test.
+
 
 app.use(loggerMiddleware);
 
