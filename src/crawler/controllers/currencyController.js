@@ -12,8 +12,14 @@ const currencyController = {
            return res.status(422).jsonp(errors.array());
        }
        try {
+           // Send to DB method for conversion
            const result = pool.query('SELECT * FROM convertIban($1, $2, $3)', values);
-           console.log(((await result).rows));
+
+           if(!(await result).rows.isEmpty){
+                return res.status(200).json(parseFloat((await result).rows[0].convertiban).toFixed(2));
+           } else {
+            return res.status(400).send({ message: 'Error with conversion'});
+           }
        } catch(error) {
            console.log(error);
        }

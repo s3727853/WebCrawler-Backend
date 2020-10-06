@@ -4,12 +4,14 @@ const { check } = require('express-validator');
 
 const currencyRouter = new Router();
 
+const allowedCurrencies = ['AUD', 'USD', 'GBP', 'NZD'];
+
 currencyRouter.route('/')
     // Run some input validation
     .get([
-        check('amount').notEmpty(),
-        check('from').notEmpty(),
-        check('to').notEmpty()
+        check('amount').notEmpty().isFloat(),
+        check('from').isIn(allowedCurrencies),
+        check('to').isIn(allowedCurrencies)
     ],
     currencyController.convertCurrency);
 

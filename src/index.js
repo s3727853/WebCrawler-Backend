@@ -94,14 +94,10 @@ app.use((req, res) => {
     console.log('Server listening on port 3001');
   });
 
-// This will call the updateCurrencyData every 3 hours and update it. TODO: add some sort of fallback if this fails for some reson. 
-// const updateIbanTable = cron.schedule('* */2 * * * *', ()=> {
-//   console.log(Date());
-//   //currencyController.updateCurrencyData();
-//   });
-// updateIbanTable.start();
-// updateIbanTable.stop();
+// This will call the updateCurrencyData every 3 hours and update it. TODO: add some sort of fallback if this fails for some reason. 
 cron.schedule('0 0 */3 * * *', function () {
+  // Temp output to check it is functioning as expected once deployed for a few days.
+  console.log("Cron Job about to run:");
   console.log(Date());
   currencyController.updateCurrencyData();
 });
