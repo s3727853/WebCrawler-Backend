@@ -9,7 +9,10 @@ import newUserRouter from './routes/newUser';
 import healthRouter from './routes/health';
 import auth from './middleware/authenticator';
 import authDemo from './routes/authDemo';
+import currencyRouter from './routes/currencyConversion';
+import currencyController from './crawler/controllers/currencyController';
 import { loggerMiddleware } from './logger/logger';
+const cron = require('node-cron');
 
 
 // Read in .env variables.
@@ -17,16 +20,6 @@ require('dotenv').config();
 
 // Initialise Express.
 const app = express();
-
-
-
-// Testing for crawler, it will run once on start
-
-import crawler from './crawler/controllers/exchangeRates';
-crawler.start();
-
-// End crawler test.
-
 
 app.use(loggerMiddleware);
 
@@ -79,6 +72,8 @@ app.use('/api/user/register', newUserRouter); //New user registraton
 // if next gets called then this proceeds to the next route (authDemo).
 app.use('/api/demo/auth', auth.checkJWT, authDemo); 
 
+app.use('/api/currency', currencyRouter);
+
 
 //app.use('/api/testauth', Auth.checkAuth, authTestRouter);
 
@@ -98,4 +93,18 @@ app.use((req, res) => {
   app.listen(process.env.PORT || 3001, async () => {
     console.log('Server listening on port 3001');
   });
-  
+
+// This will call the updateCurrencyData every 3 hours and update it. TODO: add some sort of fallback if this fails for some reson. 
+// const updateIbanTable = cron.schedule('* */2 * * * *', ()=> {
+//   console.log(Date());
+//   //currencyController.updateCurrencyData();
+//   });
+// updateIbanTable.start();
+// updateIbanTable.stop();
+cron.schedule('0 0 */3 * * *', function () {
+  console.log(Date());
+  currencyController.updateCurrencyData();
+});
+
+
+
