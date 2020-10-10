@@ -52,6 +52,9 @@ const ibanCrawler = {
                     // New Zealand dollar
                     const nzd = currencyTable.find(element => element.code == "NZD");
                     storedCurrencies.push({code : nzd.code, rate : nzd.rate});
+                    //Chinese Yuan
+                    const cny = currencyTable.find(element => element.code == "CNY");
+                    storedCurrencies.push({code : nzd.code, rate : nzd.rate});
                     
                     
                     // Call db method and pass in rates
