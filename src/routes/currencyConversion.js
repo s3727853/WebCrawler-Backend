@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 
 const currencyRouter = new Router();
 
-const allowedCurrencies = ['AUD', 'USD', 'GBP', 'NZD'];
+const allowedCurrencies = ['AUD', 'USD', 'GBP', 'NZD', 'CNY'];
 
 currencyRouter.route('/')
     // Run some input validation
