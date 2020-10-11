@@ -54,7 +54,7 @@ const ibanCrawler = {
                     storedCurrencies.push({code : nzd.code, rate : nzd.rate});
                     //Chinese Yuan
                     const cny = currencyTable.find(element => element.code == "CNY");
-                    storedCurrencies.push({code : nzd.code, rate : nzd.rate});
+                    storedCurrencies.push({code : cny.code, rate : cny.rate});
                     
                     
                     // Call db method and pass in rates
