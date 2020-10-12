@@ -11,7 +11,10 @@ import auth from './middleware/authenticator';
 import authDemo from './routes/authDemo';
 import currencyRouter from './routes/currencyConversion';
 import currencyController from './crawler/controllers/currencyController';
+import resetPassRouter from './routes/resetPass';
 import { loggerMiddleware } from './logger/logger';
+import updatePassRouter from './routes/updatePass';
+import adminRouter from './routes/admin';
 const cron = require('node-cron');
 
 
@@ -60,22 +63,27 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // API routes.
-
-app.use('/api/demo', demoRouter); // This is a demo route that tells /api/demo route to use demoRouter which was imported top of file
+// This is a demo route that tells /api/demo route to use demoRouter which was imported top of file
+app.use('/api/demo', demoRouter); 
 
 // API routes
 
-app.use('/api/user/login', loginRouter); // Login
-app.use('/api/user/register', newUserRouter); //New user registraton
+// Login
+app.use('/api/user/login', loginRouter); 
+//New user registraton
+app.use('/api/user/register', newUserRouter); 
+app.use('/api/user/resetpass', resetPassRouter);
 
 // Auth contains a next call that only happens if token is verified.
 // if next gets called then this proceeds to the next route (authDemo).
 app.use('/api/demo/auth', auth.checkJWT, authDemo); 
 
+app.use('/api/user/updatepass', auth.checkJWT, updatePassRouter);
+
 app.use('/api/currency', currencyRouter);
 
+app.use('/api/admin', auth.checkJWT, adminRouter);
 
-//app.use('/api/testauth', Auth.checkAuth, authTestRouter);
 
 // Root response to show Node is running when root url is visited in browser
 

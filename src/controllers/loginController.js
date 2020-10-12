@@ -1,6 +1,6 @@
 import jwtConfig from '../config/jwtConfig';
 import pool from '../db/dbConnection';
-import { validationResult, Result } from 'express-validator';
+import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 
 
