@@ -1,5 +1,4 @@
 import { validationResult } from 'express-validator';
-import { restart } from 'nodemon';
 import pool from '../db/dbConnection';
 
 const adminController = {

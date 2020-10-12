@@ -1,4 +1,3 @@
-import { query } from 'express';
 import { validationResult } from 'express-validator';
 import generator from 'generate-password';
 import nodemailer from 'nodemailer';
