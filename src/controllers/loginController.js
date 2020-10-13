@@ -36,8 +36,8 @@ const loginController = {
             const token = jwt.sign(payload, jwtConfig.jwtSecret, {
                 expiresIn: jwtConfig.tokenExpireTime
             });
-
-            return res.status(200).send({ access_token: `${token}`});
+            // changed token name for consistency
+            return res.status(200).send({ token: `${token}`});
 
         } catch (error) {
             console.log(error);
