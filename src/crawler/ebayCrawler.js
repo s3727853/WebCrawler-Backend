@@ -43,7 +43,7 @@ const ebayCrawler = {
                                 //const currency = $("#vi-mskumap-none > span:nth-child(3)").attr("content");
                                 const isAuction = $("#bidBtn_btn").attr("data-cta") ? true : false; 
                                 console.log("Item: " + itemName + " Price $" + price + " Auction: " + isAuction);
-                                currencyTable.push(tableRow);
+                               // currencyTable.push(tableRow);
                             }
                         }
                     })
