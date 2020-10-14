@@ -1,4 +1,4 @@
-import ibanCrawler from './ibanCrawler';
+import ibanCrawler from '../ibanCrawler';
 import pool from '../../db/dbConnection';
 import { validationResult } from 'express-validator';
 

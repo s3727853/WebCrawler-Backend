@@ -1,5 +1,5 @@
 var Crawler = require("crawler");
-import pool from '../../db/dbConnection';
+import pool from '../db/dbConnection';
 
 const ibanCrawler = {
 
