@@ -15,6 +15,7 @@ import resetPassRouter from './routes/resetPass';
 import { loggerMiddleware } from './logger/logger';
 import updatePassRouter from './routes/updatePass';
 import adminRouter from './routes/admin';
+import ebayRouter from './routes/ebay';
 const cron = require('node-cron');
 
 
@@ -84,6 +85,8 @@ app.use('/api/currency', currencyRouter);
 
 app.use('/api/admin', auth.checkJWT, adminRouter);
 
+app.use('/api/user/ebaylink', auth.checkJWT, ebayRouter);
+
 
 // Root response to show Node is running when root url is visited in browser
 
@@ -103,10 +106,12 @@ app.use((req, res) => {
   });
 
 
-import ebayCrawler from './crawler/ebayCrawler';
-ebayCrawler.crawlEbay("https://www.ebay.com.au/itm/Dell-G7-17-Gaming-Laptop-Intel-Core-i7-10750H-16GB-512GB-SSD-RTX-2070/392848668206?_trkparms=%26rpp_cid%3D5e9eb54bdac6250375030238%26rpp_icid%3D5e9eb54bdac6250375030237&_trkparms=pageci%3A3ce67d07-0cc9-11eb-b6f2-3ef42141b9ca%7Cparentrq%3A1e7e654f1750ace085d17050ffd6570e%7Ciid%3A2");
-ebayCrawler.crawlEbay("https://www.ebay.com.au/itm/REDRAGON-K552-Gaming-Mechanical-Wired-Splash-proof-Water-Keyboard-87-Keys-AU/164366714662?_trkparms=aid%3D1110009%26algo%3DSPLICE.COMPLISTINGS%26ao%3D1%26asc%3D228209%26meid%3Dcd7755a1130a44eca91534872e102344%26pid%3D100008%26rk%3D5%26rkt%3D12%26sd%3D392848668206%26itm%3D164366714662%26pmt%3D1%26noa%3D0%26pg%3D2047675%26algv%3Ddefault%26brand%3DRedragon&_trksid=p2047675.c100008.m2219");
-ebayCrawler.crawlEbay("https://www.ebay.com.au/itm/Xbox-One-X-1TB-Console-2-Controllers-3-Games-AUS-STOCK/193705414170?_trkparms=aid%3D777001%26algo%3DDISCO.FEED%26ao%3D1%26asc%3D228701%26meid%3D1a83934d559547e597e5a27be19fb558%26pid%3D100651%26rk%3D1%26rkt%3D1%26mehot%3Dnone%26itm%3D193705414170%26pmt%3D0%26noa%3D1%26pg%3D2380057%26algv%3DPersonalizedTopicsRefactor%26brand%3DMicrosoft&_trksid=p2380057.c100651.m4497&_trkparms=pageci%3A6f5f5bdd-0ce0-11eb-bc91-f2154f40abbd%7Cparentrq%3A1f166be31750a69d3f22fa11ffed3686%7Ciid%3A3");
+// import ebayCrawler from './crawler/ebayCrawler';
+// ebayCrawler.crawlEbay("https://www.ebay.com.au/itm/Dell-G7-17-Gaming-Laptop-Intel-Core-i7-10750H-16GB-512GB-SSD-RTX-2070/392848668206?_trkparms=%26rpp_cid%3D5e9eb54bdac6250375030238%26rpp_icid%3D5e9eb54bdac6250375030237&_trkparms=pageci%3A3ce67d07-0cc9-11eb-b6f2-3ef42141b9ca%7Cparentrq%3A1e7e654f1750ace085d17050ffd6570e%7Ciid%3A2");
+// ebayCrawler.crawlEbay("https://www.ebay.com.au/itm/REDRAGON-K552-Gaming-Mechanical-Wired-Splash-proof-Water-Keyboard-87-Keys-AU/164366714662?_trkparms=aid%3D1110009%26algo%3DSPLICE.COMPLISTINGS%26ao%3D1%26asc%3D228209%26meid%3Dcd7755a1130a44eca91534872e102344%26pid%3D100008%26rk%3D5%26rkt%3D12%26sd%3D392848668206%26itm%3D164366714662%26pmt%3D1%26noa%3D0%26pg%3D2047675%26algv%3Ddefault%26brand%3DRedragon&_trksid=p2047675.c100008.m2219");
+// ebayCrawler.crawlEbay("https://www.ebay.com.au/itm/Xbox-One-X-1TB-Console-2-Controllers-3-Games-AUS-STOCK/193705414170?_trkparms=aid%3D777001%26algo%3DDISCO.FEED%26ao%3D1%26asc%3D228701%26meid%3D1a83934d559547e597e5a27be19fb558%26pid%3D100651%26rk%3D1%26rkt%3D1%26mehot%3Dnone%26itm%3D193705414170%26pmt%3D0%26noa%3D1%26pg%3D2380057%26algv%3DPersonalizedTopicsRefactor%26brand%3DMicrosoft&_trksid=p2380057.c100651.m4497&_trkparms=pageci%3A6f5f5bdd-0ce0-11eb-bc91-f2154f40abbd%7Cparentrq%3A1f166be31750a69d3f22fa11ffed3686%7Ciid%3A3");
+
+
 // This will call the updateCurrencyData every 3 hours and update it. TODO: add some sort of fallback if this fails for some reason. 
 cron.schedule('0 0 */3 * * *', function () {
   // Temp output to check it is functioning as expected once deployed for a few days.

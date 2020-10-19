@@ -14,7 +14,7 @@ const Auth = {
              if(err) {
                  return res.status(400).send({ auth: false, message: 'Token provided is invalid' });
              }
-             req.user = {first_name: decoded.first_name, last_name: decoded.last_name, email: decoded.email, role: decoded.role, auth: true};
+             req.user = {id: decoded.id, first_name: decoded.first_name, last_name: decoded.last_name, email: decoded.email, role: decoded.role, auth: true};
              next();
          });
      } catch (error) {

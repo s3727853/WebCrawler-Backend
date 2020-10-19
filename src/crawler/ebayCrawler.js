@@ -6,7 +6,9 @@
 // If auction  $("#bidBtn_btn").attr("data-cta")  will = placebid
 
 var Crawler = require("crawler");
+import webpackNodeExternals from 'webpack-node-externals';
 import pool from '../db/dbConnection';
+import ebayController from './controllers/ebayController';
 
 const ebayCrawler = {
 
@@ -15,12 +17,10 @@ const ebayCrawler = {
 
     // A regular expression is used to ensure that the link is valid for a ebay product.
     // Ebay product link should begin like this: https://www.ebay.com.au/itm/ -Rest of link here-
-    let ebayREGEX = /(https:\/\/(.+?\.)ebay\.com\.au\/itm(\/[A-Za-z0-9\-\._~:\/\?#%\[\]@!$&'\(\)\*\+,;\=]*)?)/;
-    const ebayLink = req;
-
+    //let ebayREGEX = /(https:\/\/(.+?\.)ebay\.com\.au\/itm(\/[A-Za-z0-9\-\._~:\/\?#%\[\]@!$&'\(\)\*\+,;\=]*)?)/;
+    const item = [];
+    const ebayLink = req.link;
         try {
-            if(ebayREGEX.test(ebayLink)){
-
                 var crawler = new Crawler({
                     maxConnections : 10
                     });
@@ -39,22 +39,34 @@ const ebayCrawler = {
                                 const itemName = $("#vi-lkhdr-itmTitl").text();
                                 const price1 = $("#prcIsum").attr("content");   
                                 const price2 = $("#prcIsum_bidPrice").attr("content"); 
-                                const price = price1 ? price1 : price2; 
-                                //const currency = $("#vi-mskumap-none > span:nth-child(3)").attr("content");
+                                var price = 0;
+                                if(price1 == undefined){
+                                    price = price2;
+                                }
+                                if(price1 == undefined && price2 == undefined){
+                                    price = -1;
+                                } else {
+                                    price = price1;
+                                }
+                                
                                 const isAuction = $("#bidBtn_btn").attr("data-cta") ? true : false; 
-                                console.log("Item: " + itemName + " Price $" + price + " Auction: " + isAuction);
-                               // currencyTable.push(tableRow);
+                                //console.log("Item: " + itemName + " Price $" + price + " Auction: " + isAuction);
+                               
+                                item.push({ItemName : itemName, Price : price, isAuction : isAuction});   
+                                
+                                // Call the controller to add the data to db
+                                if(!req.update){  
+                                    ebayController.processLink(item);
+                                } else {
+                                    console.log("Calling update price method");
+                                }
                             }
                         }
-                    })
-
-            } else {
-                console.log("Not a valid ebay link");
-            }
+                    }) 
         }
         catch(error) {
             console.log(error);
-        }
+        }  
     }
     
        
