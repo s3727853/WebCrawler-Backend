@@ -1,58 +1,39 @@
-import ebayCrawler from '../ebayCrawler';
+import ebayPriceUpdateCrawler from '../ebayPriceUpdateCrawler';
 import pool from '../../db/dbConnection';
 import { validationResult } from 'express-validator';
 
 const ebayController = {
 
-    // Add a new ebay link to signed in users account
-    async addLink(req, res) {
+    // Get the ebay items that the user has assigned to their accoutn.
+    
+    async getItems(req, res) {
         const errors = validationResult(req);
 
         if(!errors.isEmpty()){
             return res.status(422).jsonp(errors.array());
         }
-       
-
-        ebayCrawler.crawlEbay({link : req.body.link, update : true});
-        
-
+ 
         try {
-            
-
-            //console.log(crawledItem);
-
-            // const ebayItemValues = [req.user.id, req.body.link,]
-            // if(!req.body.notify_change){
-            //     const queryResult = await pool.query("");
-            // }
-
-            // console.log(req.body.link + " \n" + req.body.update_interval + " " + req.body.notify_change + " " +
-            //             req.body.change_direction + " " + req.body.change_amount);
-            // console.log("User ID: " + req.user.id);
-
-            // If link is valid and crawler gets valid results add it to ebayLinks table
-            // 
-            // VALUES()"
-
+            const queryValues = [req.user.id];
+            const queryResult = pool.query("SELECT * FROM ebaylinks WHERE user_id = $1", queryValues);
+            return res.status(200).send((await queryResult).rows);
         } catch(error) {
             console.log(error);
         }
     },
 
-    async processLink(req){
-
+    // TODO
+    async getItemPriceHistory(req, res){
         try{
-
-            console.log("In EBAY Controller processlink Methdo:");
-            console.log(req);
 
         } catch(error){
             console.log(error);
         }
-
     },
 
-    // Delete a saved link for signed in user
+
+    // TODO
+    // Delete a saved link for signed in user 
     async deleteLink(req, res) {
         const errors = validationResult(req);
 
@@ -71,6 +52,13 @@ const ebayController = {
     // Check the age of links and if they are older than their update interval re crawl them (update)
     async checkAge() {
         try{
+
+            // Get list of links that are out of date (last_crawled - time now > crawl interval)
+            const linksToUpdate = await pool.query("SELECT * FROM getEbayUpdateList()");
+            // For each item that needs updating send it to the crawler.
+            linksToUpdate.rows.forEach(element => {
+                ebayPriceUpdateCrawler.crawlEbay(element);
+            });
 
         } catch(error){
             console.log(error);
