@@ -7,7 +7,7 @@ import { Pool } from 'pg';
 require('dotenv').config();
 
 const pool = new Pool({
-  connectionLimit: 5, // our elephantSQL plan has a 5 connection limit
+  connectionLimit: 4, // our elephantSQL plan has a 5 connection limit
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   host: 'rosie.db.elephantsql.com',

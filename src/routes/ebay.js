@@ -6,16 +6,16 @@ const { check, oneOf } = require('express-validator');
 const ebayRouter = new Router();
 
 const updateInterval = ['3', '6', '12'];
-const changeDirection = ['increase', 'decrease'];
+
 
 ebayRouter.route('/')
     .post([
         
             check('link').matches(/(https:\/\/(.+?\.)ebay\.com\.au\/itm(\/[A-Za-z0-9\-\._~:\/\?#%\[\]@!$&'\(\)\*\+,;\=]*)?)/),
             check('update_interval').isIn(updateInterval),
-            check('notify_change').exists().isBoolean(),
-            check('change_direction').exists().isIn(changeDirection),
-            check('change_amount').exists().isFloat()
+            check('notify_change').isBoolean().optional(),
+            check('price_increase').isBoolean().optional(),
+            check('change_amount').isFloat().optional()
     ],
     ebayCrawler.crawlEbay);
     //ebayController.addLink);
@@ -25,8 +25,14 @@ ebayRouter.route('/')
     // ],
     // ebayController.deleteLink);
 
-    ebayRouter.route('/')
-    .get(
+ebayRouter.route('/')
+        .get(
         ebayController.getItems);
+        
+ebayRouter.route('/history')
+        .get([
+                check('link_id').isInt().exists()
+        ],
+            ebayController.getItemPriceHistory);
     
 export default ebayRouter;

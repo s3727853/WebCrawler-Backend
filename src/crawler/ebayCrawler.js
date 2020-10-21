@@ -65,9 +65,20 @@ const ebayCrawler = {
                                 
                                 
                                 if(!invalidLink){  
-                                    const queryValues = [req.user.id, req.body.link, itemName, price, req.body.update_interval];
-                                    const queryResult = pool.query("SELECT * FROM addEbayItem($1, $2, $3, $4, $5)", queryValues);
-                                    return res.status(200).jsonp({name : itemName, price : price, isAuction : auction, user : req.user.id});
+                                    if(req.body.notify_change == "false"){
+                                        console.log("notify change = false");
+                                        const queryValues = [req.user.id, req.body.link, itemName, price, req.body.update_interval];
+                                        const queryResult = pool.query("SELECT * FROM addEbayItem($1, $2, $3, $4, $5)", queryValues);
+                                        return res.status(200).jsonp({name : itemName, price : price, isAuction : auction, user : req.user.id});
+                                        
+                                    }
+                                    if(req.body.notify_change == "true"){
+                                        console.log("notify change = true");
+                                        const queryValues = [req.user.id, req.body.link, itemName, price, req.body.update_interval, 
+                                            req.body.notify_change, req.body.price_increase, req.body.change_amount];
+                                        const queryResult = pool.query("SELECT * FROM addEbayItem($1, $2, $3, $4, $5, $6, $7, $8)", queryValues);
+                                        return res.status(200).jsonp({name : itemName, price : price, isAuction : auction, user : req.user.id});
+                                    }
 
                                 } else {
                                     return res.status(400).send({ message: 'Ebay link no longer valid. It may have expired'});

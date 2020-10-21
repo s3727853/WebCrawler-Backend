@@ -42,6 +42,8 @@ const ebayPriceUpdateCrawler = {
                                     const queryResult = pool.query("SELECT * FROM updateEbayPrice($1, $2)", queryValues);
                                     
                                 } else {
+                                    const queryValues = [req.link_id];
+                                    const queryResult = pool.query("UPDATE ebaylinks SET link_valid = 'FALSE' WHERE id=$1", queryValues);
                                     console.log('Ebay link no longer valid. It may have expired');
                                 }
 
