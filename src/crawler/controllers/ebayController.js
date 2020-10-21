@@ -54,7 +54,7 @@ const ebayController = {
     // This checks all links that are set with a notificaton, If the price has falls within a notifcation range send email
     async checkNotifications() {
         try{
-            const queryResult = pool.query("SELECT * FROM checkEbayNotifications()");
+            const queryResult = await pool.query("SELECT * FROM checkEbayNotifications()");
             console.log(queryResult.rows);
             
             // TODO Send email to user.
@@ -77,7 +77,8 @@ const ebayController = {
                 console.log("Updating " + element);
 
                 ebayPriceUpdateCrawler.crawlEbay(element);
-                values = [element.ebayemail_id];
+                const values = [element.ebayemail_id];
+                
                 
             });
 
