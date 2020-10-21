@@ -109,20 +109,21 @@ app.use((req, res) => {
 
 // This calls a db function that will check if any links need to be updated according their individual update interval setting.
 
-cron.schedule('0 0 */1 * * *', function () {
-  // Temp output to check it is functioning as expected once deployed for a few days.
-  console.log("Cron Job about to run (Check Ebay Links):");
-  console.log(Date());
-  ebayController.checkAge();
-});
+// cron.schedule('0 0 */1 * * *', function () {
+//   // Temp output to check it is functioning as expected once deployed for a few days.
+//   console.log("Cron Job about to run (Check Ebay Links Update method):");
+//   console.log(Date());
+//   ebayController.checkAge();
+// });
 
 // This checks all links that are set with a notificaton, If the price has falls within a notifcation range send email
-cron.schedule('0 0 */2 * * *', function () {
-  // Temp output to check it is functioning as expected once deployed for a few days.
-  console.log("Cron Job about to run (Check Ebay Links):");
-  console.log(Date());
-  ebayController.checkNotifications();
-});
+
+// cron.schedule('0 0 */2 * * *', function () {
+//   // Temp output to check it is functioning as expected once deployed for a few days.
+//   console.log("Cron Job about to run (Check Ebay Links notification method):");
+//   console.log(Date());
+//   ebayController.checkNotifications();
+// });
 
 // This will call the updateCurrencyData every 3 hours and update it. TODO: add some sort of fallback if this fails for some reason. 
 cron.schedule('0 0 */3 * * *', function () {
