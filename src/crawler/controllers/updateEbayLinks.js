@@ -59,7 +59,7 @@ const updateEbayLinks = {
                                     updatedLinks.push([element.link_id, parseFloat(price)]);
 
                                 } else {
-                                   invalidLinks.push(element.link_id);
+                                   invalidLinks.push([element.link_id]);
                                    
                                     
                                 }
