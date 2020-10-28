@@ -1,4 +1,4 @@
-import ebayPriceUpdateCrawler from '../ebayPriceUpdateCrawler';
+import updateEbayLinks from '../controllers/updateEbayLinks';
 import pool from '../../db/dbConnection';
 import { validationResult } from 'express-validator';
 
@@ -69,18 +69,7 @@ const ebayController = {
     // Check the age of links and if they are older than their update interval re crawl them (update)
     async checkAge() {
         try{
-
-            // Get list of links that are out of date (last_crawled - time now > crawl interval)
-            const linksToUpdate = await pool.query("SELECT * FROM getEbayUpdateList()");
-            // For each item that needs updating send it to the crawler to update the price
-            linksToUpdate.rows.forEach(element => {
-                console.log("Updating " + element);
-
-                ebayPriceUpdateCrawler.crawlEbay(element);
-                const values = [element.ebayemail_id];
-                
-                
-            });
+            updateEbayLinks.updateEbayLinks();
 
         } catch(error){
             console.log(error);
