@@ -109,12 +109,23 @@ app.use((req, res) => {
 
 // This calls a db function that will check if any links need to be updated according their individual update interval setting.
 
+<<<<<<< HEAD
 // cron.schedule('0 0 */1 * * *', function () {
 //   // Temp output to check it is functioning as expected once deployed for a few days.
 //   console.log("Cron Job about to run (Check Ebay Links update method):");
 //   console.log(Date());
 //   ebayController.checkAge();
 // });
+=======
+cron.schedule('0 0 */2 * * *', function () {
+  // Temp output to check it is functioning as expected once deployed for a few days.
+  console.log("Cron Job about to run (Check Ebay Links update method):");
+  console.log(Date());
+  ebayController.checkAge();
+});
+>>>>>>> develop
+
+
 
 // This checks all links that are set with a notificaton, If the price has falls within a notifcation range send email
 cron.schedule('0 0 */2 * * *', function () {
