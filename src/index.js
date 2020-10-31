@@ -127,12 +127,9 @@ cron.schedule('0 0 */2 * * *', function () {
 });
 
 // This will call the updateCurrencyData every 3 hours and update it. TODO: add some sort of fallback if this fails for some reason. 
-cron.schedule('0 0 */3 * * *', function () {
+cron.schedule('0 0 */6 * * *', function () {
   // Temp output to check it is functioning as expected once deployed for a few days.
   console.log("Cron Job about to run (Update Currency):");
   console.log(Date());
   currencyController.updateCurrencyData();
 });
-
-
-

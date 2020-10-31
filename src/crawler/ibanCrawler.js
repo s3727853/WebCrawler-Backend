@@ -4,12 +4,14 @@ import pool from '../db/dbConnection';
 const ibanCrawler = {
 
     async crawlIban() {
+        const storedCurrencies = [];
 
-        var crawler = new Crawler({
-        maxConnections : 10
-        });
+        try {
+            var crawler = new Crawler({
+            maxConnections : 10
+            });
         
-        crawler.direct({
+            crawler.direct({
             uri: 'https://www.iban.com/exchange-rates',
             skipEventsRequest: false,
             callback : function (error, response) {
@@ -29,63 +31,46 @@ const ibanCrawler = {
                 
                     })
 
-                    // uncomment the below console.log if you wanto see output from the above code
-                    // console.log(currencyTable);
-
-                    try {
-
-                    // This try block should fail if there is a problem reading the table. We assume if the currency code(exists) then the associated exchange rate is valid. 
-                    // if the currency code does not exists it will throw the error in the search functions. If rate field does not exist it will throw the error in the
-                    // in array assignment. This is not the cleanest way to do this. But the main goal here is to get some of these features up and running quickly.
-
-                    const storedCurrencies = [];
-
+                    
                     // Australian Dollar
                     const aud = currencyTable.find(element => element.code == "AUD");
-                    storedCurrencies.push({code : aud.code, rate : aud.rate});
+                    storedCurrencies.push([aud.code, aud.rate]);
                     // American Dollar
                     const usd = currencyTable.find(element => element.code == "USD"); 
-                    storedCurrencies.push({code : usd.code, rate : usd.rate});
+                    storedCurrencies.push([usd.code, usd.rate]);
                     // English pound 
                     const gbp = currencyTable.find(element => element.code == "GBP");
-                    storedCurrencies.push({code : gbp.code, rate : gbp.rate});
+                    storedCurrencies.push([gbp.code, gbp.rate]);
                     // New Zealand dollar
                     const nzd = currencyTable.find(element => element.code == "NZD");
-                    storedCurrencies.push({code : nzd.code, rate : nzd.rate});
+                    storedCurrencies.push([nzd.code, nzd.rate]);
                     //Chinese Yuan
                     const cny = currencyTable.find(element => element.code == "CNY");
-                    storedCurrencies.push({code : cny.code, rate : cny.rate});
-                    
-                    
-                    // Call db method and pass in rates
-
-                    console.log("\nRates to be pushed to DB:");
-                    storedCurrencies.forEach(element => {
-                         console.log(element.code + " " + element.rate)
-
-                        pool.query('SELECT * FROM ibanUpdate($1, $2)', [element.code, element.rate], (err, res) => {
-                            if (err){
-                                console.log(err)
-                            }
-                            console.log(res.rows[0])
-                        })
-                            
-                     });
+                    storedCurrencies.push([cny.code, cny.rate]);                
                 
-                    } catch(error){
-                    // THis will need to be more robust later on. for example if currency reads fail 3 times email admin and switch to backup site.
-                    console.log(error);
-                    } 
                 }
             
             }
-        });    
+        })   
+    } catch(error){
+        console.log(error);
     }
+
+    const delay = millis => new Promise((resolve, reject) => {
+        setTimeout(_ => resolve(), millis)
+      });
+
+    // Awaiting crawler to crawl links. This is not a good solution. But for the sake of this
+    // project and time constraints it will have to do
+    await delay(10000);
+
+    console.log("Currency Array to be pushed to DB:");
+    console.log(storedCurrencies);
+    pool.query("SELECT * FROM ibanUpdate($1)", [storedCurrencies]);
+
+
+    }   
 };
+
 export default ibanCrawler;
-
-
-
-
-
 
