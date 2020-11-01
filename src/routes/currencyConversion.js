@@ -15,4 +15,9 @@ currencyRouter.route('/')
     ],
     currencyController.convertCurrency);
 
+currencyRouter.route('/history')
+    .get(
+        currencyController.getHistory
+    );
+
 export default currencyRouter;

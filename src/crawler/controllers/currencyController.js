@@ -33,6 +33,16 @@ const currencyController = {
         } catch (error) {
             console.log(error)
         }   
+    },
+
+    async getHistory(req, res){
+        try{
+            const result = pool.query("SELECT * FROM ibanhistory");
+            return res.status(200).json((await result).rows);
+
+        } catch(error){
+            console.log(error);
+        }
     }
     
 }
