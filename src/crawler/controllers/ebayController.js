@@ -39,12 +39,24 @@ const ebayController = {
     // Delete a saved link for signed in user 
     async deleteLink(req, res) {
         const errors = validationResult(req);
+        const queryValues = [req.body.link_id, req.user.id];
+        console.log("Link ID = " + req.body.link_id + " User ID = " + req.user.id);
 
         if(!errors.isEmpty()){
-            return res.status(422).jsonp(errros.array());
+            return res.status(422).jsonp(errors.array());
         }
 
         try{
+
+            const queryResult = pool.query("SELECT * FROM deleteEbayLink($1,$2)", queryValues);
+
+            if((await queryResult).rows[0].deleteebaylink == 'link deleted'){
+                return res.status(200).json({message : 'Link deleted'});
+            }
+            else {
+                return res.status(404).send({message: 'Link not found for current user'});
+            }
+
 
         } catch(error){
             console.log(error);

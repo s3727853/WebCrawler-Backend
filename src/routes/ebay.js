@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import ebayController from '../crawler/controllers/ebayController';
 import ebayCrawler from '../crawler/ebayCrawler'
-const { check, oneOf } = require('express-validator');
+const { check } = require('express-validator');
 
 const ebayRouter = new Router();
 
@@ -18,12 +18,6 @@ ebayRouter.route('/')
             check('change_amount').isFloat().optional()
     ],
     ebayCrawler.crawlEbay);
-    //ebayController.addLink);
-    
-    // .delete([
-    //     check('id').isInt(),
-    // ],
-    // ebayController.deleteLink);
 
 ebayRouter.route('/')
         .get(
@@ -34,5 +28,12 @@ ebayRouter.route('/history')
                 check('link_id').isInt().exists()
         ],
             ebayController.getItemPriceHistory);
+
+ebayRouter.route('/')
+        .delete([
+                check('link_id').isInt().escape().notEmpty()
+        ],
+        ebayController.deleteLink);
+
     
 export default ebayRouter;
