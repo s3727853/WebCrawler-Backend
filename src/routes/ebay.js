@@ -29,9 +29,9 @@ ebayRouter.route('/history')
         ],
             ebayController.getItemPriceHistory);
 
-ebayRouter.route('/')
+ebayRouter.route('/:id')
         .delete([
-                check('link_id').isInt().escape().notEmpty()
+                check('id').isInt().escape().notEmpty()
         ],
         ebayController.deleteLink);
 

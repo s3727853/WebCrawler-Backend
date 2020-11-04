@@ -1,6 +1,7 @@
 import updateEbayLinks from '../controllers/updateEbayLinks';
 import pool from '../../db/dbConnection';
 import { validationResult } from 'express-validator';
+import { Console } from 'winston/lib/winston/transports';
 
 const ebayController = {
 
@@ -39,15 +40,17 @@ const ebayController = {
     // Delete a saved link for signed in user 
     async deleteLink(req, res) {
         const errors = validationResult(req);
-        const queryValues = [req.body.link_id, req.user.id];
-        console.log("Link ID = " + req.body.link_id + " User ID = " + req.user.id);
+        const queryValues = [req.params.id, req.user.id];
+       // console.log("Link ID = " + req.body.link_id + " User ID = " + req.user.id);
 
         if(!errors.isEmpty()){
             return res.status(422).jsonp(errors.array());
         }
 
         try{
-
+            console.log("Delete Ebay Link Called");
+            console.log("Link ID " + req.params.id);
+            console.log("User ID " + req.user.id);
             const queryResult = pool.query("SELECT * FROM deleteEbayLink($1,$2)", queryValues);
 
             if((await queryResult).rows[0].deleteebaylink == 'link deleted'){
