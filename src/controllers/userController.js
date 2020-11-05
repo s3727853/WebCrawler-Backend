@@ -1,5 +1,4 @@
 import { validationResult, Result } from 'express-validator';
-import { contentSecurityPolicy } from 'helmet';
 import pool from '../db/dbConnection';
 
 const userController = {
