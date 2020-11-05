@@ -9,6 +9,7 @@ var Crawler = require("crawler");
 import pool from '../db/dbConnection';
 import { validationResult } from 'express-validator';
 
+
 const ebayCrawler = {
 
     
@@ -62,8 +63,12 @@ const ebayCrawler = {
                                 if(isAuction == "placebid"){
                                     auction = true;
                                 }
+                                // This regex strips any letters and dollar sign from string. Due to some changes on ebays end "u$" was appearing in the price field.
+                                price = price.replace(/[A-Za-z,$]/g, '');
+                                price = price.trim();
                                 
                                 
+                                try{
                                 if(!invalidLink){  
                                     if(req.body.notify_change == "false"){
                                         console.log("notify change = false");
@@ -79,9 +84,10 @@ const ebayCrawler = {
                                         const queryResult = pool.query("SELECT * FROM addEbayItem($1, $2, $3, $4, $5, $6, $7, $8)", queryValues);
                                         return res.status(200).jsonp({name : itemName, price : price, isAuction : auction, user : req.user.id});
                                     }
+                                } 
 
-                                } else {
-                                    return res.status(400).send({ message: 'Ebay link no longer valid. It may have expired'});
+                                } catch(error){
+                                    return res.status(400).send({ message: 'Ebay link may not be valid, or system could not parse it'});
                                 }
 
                             }

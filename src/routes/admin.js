@@ -15,5 +15,11 @@ adminRouter.route('/users')
       ],
     adminController.getAllUsers);
 
-   
+
+adminRouter.route('/users/:id')
+      .delete([
+        check('id').isInt().escape().notEmpty()
+      ],
+      adminController.deleteUser);
+
 export default adminRouter;

@@ -16,7 +16,8 @@ import { loggerMiddleware } from './logger/logger';
 import updatePassRouter from './routes/updatePass';
 import adminRouter from './routes/admin';
 import ebayRouter from './routes/ebay';
-import ebayController from './crawler/controllers/ebayController'
+import ebayController from './crawler/controllers/ebayController';
+import usersRouter from './routes/users';
 const cron = require('node-cron');
 
 
@@ -88,6 +89,8 @@ app.use('/api/admin', auth.checkJWT, adminRouter);
 
 app.use('/api/user/ebaylink', auth.checkJWT, ebayRouter);
 
+app.use('/api/user/update', auth.checkJWT, usersRouter);
+
 
 // Root response to show Node is running when root url is visited in browser
 
@@ -119,12 +122,14 @@ cron.schedule('0 0 */2 * * *', function () {
 
 
 // This checks all links that are set with a notificaton, If the price has falls within a notifcation range send email
-cron.schedule('0 0 */2 * * *', function () {
+cron.schedule('0 0 */7 * * *', function () {
   // Temp output to check it is functioning as expected once deployed for a few days.
   console.log("Cron Job about to run (Check Ebay Links notification method):");
   console.log(Date());
   ebayController.checkNotifications();
 });
+
+
 
 // This will call the updateCurrencyData every 3 hours and update it. TODO: add some sort of fallback if this fails for some reason. 
 cron.schedule('0 0 */6 * * *', function () {

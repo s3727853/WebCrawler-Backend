@@ -37,7 +37,7 @@ const currencyController = {
 
     async getHistory(req, res){
         try{
-            const result = pool.query("SELECT * FROM ibanhistory");
+            const result = pool.query("SELECT * FROM ibanhistory ORDER BY last_updated ASC");
             return res.status(200).json((await result).rows);
 
         } catch(error){

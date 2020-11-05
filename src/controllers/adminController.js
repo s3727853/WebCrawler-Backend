@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator';
+import { restart } from 'nodemon';
 import pool from '../db/dbConnection';
 
 const adminController = {
@@ -33,6 +34,31 @@ const adminController = {
             console.log(err);
         }
     },
+
+    async deleteUser(req, res){
+         //user must be admin
+         if(req.user.role != "admin"){
+            return res.status(403).send({ message: 'Access denied Admin only' });
+        }
+        const errors = validationResult(req);
+        const userToDelete = [req.params.id];
+
+        
+        try{
+            const queryResult = pool.query("SELECT * FROM deleteUser($1)", userToDelete);
+
+          
+            if((await queryResult).rows[0].deleteuser == "user deleted"){
+                return res.status(400).json({message: "user deleted"});
+            }
+            else{
+                return res.status(400).json({message: "no user found by that ID"});
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
 };
 
 export default adminController;
