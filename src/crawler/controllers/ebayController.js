@@ -126,10 +126,11 @@ const ebayController = {
     
             await delay(2000);
 
-            console.log("Price change emails have been sent, deleteing the notification data")
-            console.log(ebayEmailID);
-
+            if(ebayEmailID.length>0){
+                console.log("Price change emails have been sent, deleteing the notification data")
+                console.log(ebayEmailID);
             pool.query("SELECT * FROM deleteEbayNotification($1)", [ebayEmailID]);
+            }
     
 
         } catch(error){
