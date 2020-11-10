@@ -46,7 +46,35 @@ const ebayCrawler = {
                                 const price1 = $("#prcIsum").attr("content");   
                                 const price2 = $("#prcIsum_bidPrice").attr("content"); 
                                 const isAuction = $("#bidBtn_btn").attr("data-cta");
-              
+                                
+                                // Image $("#icImg").attr("src")
+                                // Date $("#bb_tlft > span.vi-tm-left > span:nth-child(1)").text()
+                                // "(11 Nov, 2020"
+
+                                // Time $("#bb_tlft > span.vi-tm-left > span:nth-child(2)").text()
+                                // "00:52:16 AEDST)"
+
+
+
+                                // var date = '(11 Nov, 2020';
+                                // var time = '00:52:16 AEDST)';
+
+                                // date = date.replace(/[,\,",()]/g, "");
+                                // time = time.replace(/[,\,",(),A-Za-z]/g, "");
+                                // time = time.trim();
+                                // date = date.split(" ");
+
+                                // month = date[1].toLowerCase();
+                                // var months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+                                // month = months.indexOf(month) + 1;
+
+                                // console.log(date);
+                                // var finalDate = date[0] + "-" + month + "-" + date[2];
+                                // console.log("Fixed date: " + finalDate);
+                                // console.log(time);
+
+
+
                                 var price = 0;
                                 var auction = false;
                                 var invalidLink = false;
