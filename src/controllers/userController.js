@@ -27,36 +27,64 @@ const userController = {
 
     async updateUser(req, res){
         const errors = validationResult(req);
-        const userID = req.user.id;
+
+        // As this method come via the authenticator we have the users details passed in from the JWT token.
+        // The frontend only passes fields it wants updated, whatever are not passed in will be set to the current value
+        // for the user.
+        var queryValues = [];
+        var userID = req.body.user_id;
         var firstName = req.body.first_name;
         var lastName = req.body.last_name;
         var email = req.body.email;
-
-        console.log(req.body.last_name);
+        var role = req.body.role;
 
         if(!req.body.first_name){
-            firstName = req.user.first_name;
+            firstName = '';
         };
 
         if(!req.body.last_name){
-            lastName = req.user.last_name;
+            lastName = '';
         };
 
         if(!req.body.email){
-            email = req.user.email;
+            email = '';
         };
+
+        if(!req.body.role){
+            role = '';
+        };
+
+        if(!req.body.user_id){
+            userID = req.user.id;
+        };
+
         
-        const queryValues = [req.user.id, firstName, lastName, email];
-        
+        if(req.user.role == "admin"){
+            console.log("admin");
+            queryValues = [userID, firstName, lastName, email, role];
+        } else {
+            console.log("User");
+            queryValues = [req.user.id, firstName, lastName, email, req.user.role];
+            console.log(queryValues);
+        }
+
         if (!errors.isEmpty()) {
             // problem with input validation
             return res.status(422).jsonp(errors.array());
         }
  
         try{
-            pool.query("SELECT * FROM updateuser($1,$2,$3,$4)", queryValues);
-            return res.status(200).json({message: "Details updated"});
+            
+            const queryResult = pool.query("SELECT * FROM updateuser($1,$2,$3,$4,$5)", queryValues);
+            
+            if((await queryResult).rows[0].updateuser == "Email not unique"){
+                return res.status(400).json({message: "Email not unique in system"});
+            } else {
+                return res.status(200).json({message: "Details updated"});
+            }
+
         }catch(error){
+            console.log(error);
             return res.status(400).json({message: "error"});
         }
     }
