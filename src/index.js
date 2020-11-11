@@ -18,6 +18,9 @@ import adminRouter from './routes/admin';
 import ebayRouter from './routes/ebay';
 import ebayController from './crawler/controllers/ebayController';
 import usersRouter from './routes/users';
+
+import ebayCrawler from './crawler/ebayCrawler';
+
 const cron = require('node-cron');
 
 
@@ -138,3 +141,5 @@ cron.schedule('0 0 */6 * * *', function () {
   console.log(Date());
   currencyController.updateCurrencyData();
 });
+
+

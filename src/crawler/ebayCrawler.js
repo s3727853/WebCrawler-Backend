@@ -47,31 +47,32 @@ const ebayCrawler = {
                                 const price2 = $("#prcIsum_bidPrice").attr("content"); 
                                 const isAuction = $("#bidBtn_btn").attr("data-cta");
                                 
-                                // Image $("#icImg").attr("src")
-                                // Date $("#bb_tlft > span.vi-tm-left > span:nth-child(1)").text()
+                                const image = $("#icImg").attr("src");
+                                
+
+                                var date = $("#bb_tlft > span.vi-tm-left > span:nth-child(1)").text();
                                 // "(11 Nov, 2020"
 
-                                // Time $("#bb_tlft > span.vi-tm-left > span:nth-child(2)").text()
+                                var time = $("#bb_tlft > span.vi-tm-left > span:nth-child(2)").text();
                                 // "00:52:16 AEDST)"
 
-
-
-                                // var date = '(11 Nov, 2020';
-                                // var time = '00:52:16 AEDST)';
-
-                                // date = date.replace(/[,\,",()]/g, "");
-                                // time = time.replace(/[,\,",(),A-Za-z]/g, "");
-                                // time = time.trim();
-                                // date = date.split(" ");
+                                date = date.replace(/[,\,",()]/g, "");
+                                time = time.replace(/[,\,",(),A-Za-z]/g, "");
+                                time = time.trim();
+                                date = date.split(" ");
 
                                 // month = date[1].toLowerCase();
                                 // var months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
                                 // month = months.indexOf(month) + 1;
 
-                                // console.log(date);
-                                // var finalDate = date[0] + "-" + month + "-" + date[2];
-                                // console.log("Fixed date: " + finalDate);
-                                // console.log(time);
+                                console.log(date);
+                                var finalDate = date[0] + "-" + month + "-" + date[2];
+
+                                var isoDate = new Date(date + " " + time + "UTC");
+                                console.log("End Date:")
+                                console.log(isoDate.toISOString());
+                                console.log("Image:");
+                                console.log(image);
 
 
 
@@ -88,8 +89,10 @@ const ebayCrawler = {
                                     invalidLink = true;
                                 }
                             
+                                // If the listing is an action crawl the end time & date and format it.
                                 if(isAuction == "placebid"){
                                     auction = true;
+
                                 }
                                 // This regex strips any letters and dollar sign from string. Due to some changes on ebays end "u$" was appearing in the price field.
                                 price = price.replace(/[A-Za-z,$]/g, '');
@@ -101,7 +104,7 @@ const ebayCrawler = {
                                     if(req.body.notify_change == "false"){
                                         console.log("notify change = false");
                                         const queryValues = [req.user.id, req.body.link, itemName, price, req.body.update_interval];
-                                        const queryResult = pool.query("SELECT * FROM addEbayItem($1, $2, $3, $4, $5)", queryValues);
+                                        //const queryResult = pool.query("SELECT * FROM addEbayItem($1, $2, $3, $4, $5)", queryValues);
                                         return res.status(200).jsonp({name : itemName, price : price, isAuction : auction, user : req.user.id});
                                         
                                     }
@@ -109,7 +112,7 @@ const ebayCrawler = {
                                         console.log("notify change = true");
                                         const queryValues = [req.user.id, req.body.link, itemName, price, req.body.update_interval, 
                                             req.body.notify_change, req.body.price_increase, req.body.change_amount];
-                                        const queryResult = pool.query("SELECT * FROM addEbayItem($1, $2, $3, $4, $5, $6, $7, $8)", queryValues);
+                                        //const queryResult = pool.query("SELECT * FROM addEbayItem($1, $2, $3, $4, $5, $6, $7, $8)", queryValues);
                                         return res.status(200).jsonp({name : itemName, price : price, isAuction : auction, user : req.user.id});
                                     }
                                 } 
