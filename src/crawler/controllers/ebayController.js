@@ -32,7 +32,7 @@ const ebayController = {
         }
     },
 
-    // TODO
+
     async getItemPriceHistory(req, res){
         try{
             const queryValues = [req.query.link_id];
@@ -45,12 +45,10 @@ const ebayController = {
     },
 
 
-    // TODO
     // Delete a saved link for signed in user 
     async deleteLink(req, res) {
         const errors = validationResult(req);
         const queryValues = [req.params.id, req.user.id];
-       // console.log("Link ID = " + req.body.link_id + " User ID = " + req.user.id);
 
         if(!errors.isEmpty()){
             return res.status(422).jsonp(errors.array());
@@ -73,6 +71,28 @@ const ebayController = {
         } catch(error){
             console.log(error);
         }
+    },
+
+    async updateLink(req, res){
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.status(422).jsonp(errors.array());
+        }
+        const queryValues = [req.user.id, req.body.link_id, req.body.update_interval];
+
+        try{
+            const queryResult = pool.query("SELECT * FROM updateLink($1,$2,$3)", queryValues);
+
+            if((await queryResult).rows[0].updatelink == "link updated"){
+                return res.status(200).json({message : 'Link updated'});
+            } else {
+                return res.status(400).json({message : 'Error updating link'});
+            }
+        }catch(error){
+
+        }
+
     },
 
     // This checks all links that are set with a notificaton, If the price has falls within a notifcation range send email

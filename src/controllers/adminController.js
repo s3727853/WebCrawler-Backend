@@ -9,6 +9,7 @@ const adminController = {
             return res.status(403).send({ message: 'Access denied Admin only' });
         }
         const errors = validationResult(req);
+   
         const limit = req.query.limit || 100;
         const offset = req.query.offset || 0;
         const rolesort = req.query.rolesort || null;

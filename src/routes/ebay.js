@@ -19,6 +19,13 @@ ebayRouter.route('/')
     ],
     ebayCrawler.crawlEbay);
 
+ebayRouter.route('/update')
+    .put([
+            check('link_id').isInt(),
+            check('update_interval').isIn(updateInterval)
+    ],
+    ebayController.updateLink);
+
 ebayRouter.route('/')
         .get(
         ebayController.getItems);
