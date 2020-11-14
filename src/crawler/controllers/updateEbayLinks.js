@@ -51,11 +51,13 @@ const updateEbayLinks = {
                                 if(price2 == undefined && price1 == undefined) {
                                     invalidLink = true;
                                 }
-                                // This regex strips any letters from string. Due to some changes on ebays end "u" was appearing in the price field.
-                                price = price.replace(/[A-Za-z,$]/g, '');
-                                price = price.trim();
+                                
                 
                                 if(!invalidLink){  
+                                    // This regex strips any letters from string. Due to some changes on ebays end "u" was appearing in the price field.
+                                    price = price.replace(/[A-Za-z,$]/g, '');
+                                    price = price.trim();
+
                                     linkPrice.push(price);
                                     linkID.push(element.link_id);
                                     //updatedLinks.push({id : element.link_id, price : price});         

@@ -124,8 +124,9 @@ cron.schedule('0 0 */2 * * *', function () {
 
 
 
+
 // This checks all links that are set with a notificaton, If the price has falls within a notifcation range send email
-cron.schedule('0 0 */7 * * *', function () {
+cron.schedule('0 0 */4 * * *', function () {
   // Temp output to check it is functioning as expected once deployed for a few days.
   console.log("Cron Job about to run (Check Ebay Links notification method):");
   console.log(Date());
@@ -135,11 +136,12 @@ cron.schedule('0 0 */7 * * *', function () {
 
 
 // This will call the updateCurrencyData every 3 hours and update it. TODO: add some sort of fallback if this fails for some reason. 
-cron.schedule('0 0 */6 * * *', function () {
+cron.schedule('0 0 */3 * * *', function () {
   // Temp output to check it is functioning as expected once deployed for a few days.
   console.log("Cron Job about to run (Update Currency):");
   console.log(Date());
   currencyController.updateCurrencyData();
 });
+
 
 
