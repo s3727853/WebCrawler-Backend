@@ -3,6 +3,8 @@
 The API server is the middle layer between the public website/CMS and the database, controlling
 access to data, third-party APIs and managing authentication.
 
+Assumed prerequisites: Node.js is installed on your environment along with the npm package manager 
+
 ## `.env`
 
 Enviroment variables store passwords and senstive settings. They are therfore not included in the repo files (.gitignore has an entry)
