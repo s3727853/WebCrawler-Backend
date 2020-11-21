@@ -36,11 +36,11 @@ const userController = {
         // The frontend only passes fields it wants updated, whatever are not passed in will be set to the current value
         // for the user.
         var queryValues = [];
-        var userID = req.body.user_id.trim();
-        var firstName = req.body.first_name.trim();
-        var lastName = req.body.last_name.trim();
-        var email = req.body.email.trim();
-        var role = req.body.role.trim();
+        var userID = req.body.user_id;
+        var firstName = req.body.first_name;
+        var lastName = req.body.last_name;
+        var email = req.body.email;
+        var role = req.body.role;
 
         if(!req.body.first_name){
             firstName = '';
