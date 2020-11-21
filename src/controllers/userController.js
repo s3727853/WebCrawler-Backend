@@ -14,7 +14,11 @@ const userController = {
     }
 
     try {
-        const queryValues = [req.body.first_name, req.body.last_name, req.body.email, req.body.role, req.body.password];
+        // Trim whitespace from names
+        var first_name = req.body.first_name.trim();
+        var last_name = req.body.last_name.trim();
+
+        const queryValues = [first_name, last_name, req.body.email, req.body.role, req.body.password];
         const queryResult = pool.query('SELECT * FROM addUser($1, $2, $3, $4, $5)', queryValues);
 
         return res.status(200).json((await queryResult).rows);
@@ -32,11 +36,11 @@ const userController = {
         // The frontend only passes fields it wants updated, whatever are not passed in will be set to the current value
         // for the user.
         var queryValues = [];
-        var userID = req.body.user_id;
-        var firstName = req.body.first_name;
-        var lastName = req.body.last_name;
-        var email = req.body.email;
-        var role = req.body.role;
+        var userID = req.body.user_id.trim();
+        var firstName = req.body.first_name.trim();
+        var lastName = req.body.last_name.trim();
+        var email = req.body.email.trim();
+        var role = req.body.role.trim();
 
         if(!req.body.first_name){
             firstName = '';
