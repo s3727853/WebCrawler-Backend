@@ -55,4 +55,13 @@ npm run start:dev
 ```sh
 npm run start:prod
 ```
+## Docker Container
 
+A dockerfile has been provided based on the official node image. This image is provided as simple way to run up a the API for demonstration or use when
+developing/testing another element of the project that requires the API.
+
+To run a containerised version:
+
+Build: `sudo docker build -t jack/node-crawler .`
+
+Run: `sudo docker run -it -p 3001:3001 jack/node-crawler`
