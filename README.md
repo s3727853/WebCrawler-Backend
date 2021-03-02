@@ -64,4 +64,4 @@ To run a containerised version:
 
 Build: `sudo docker build -t jack/node-crawler .`
 
-Run: `sudo docker run -it -p 3001:3001 jack/node-crawler`
+Run: `sudo docker run -d -p 3001:3001 jack/node-crawler`
